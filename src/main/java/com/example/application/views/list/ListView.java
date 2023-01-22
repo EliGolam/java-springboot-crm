@@ -13,6 +13,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -32,15 +33,25 @@ public class ListView extends VerticalLayout {
 
     // ADD
     add(
-      // getToolbar(),
+      getToolbar(),
       grid
     );
   }
 
 
   // METHODS
+
+
   private Component getToolbar() {
-    return null;
+    this.searchField.setPlaceholder("Search by name...");
+    this.searchField.setClearButtonVisible(true);
+    this.searchField.setValueChangeMode(ValueChangeMode.LAZY); // Lazy search
+
+    Button addContactBtn = new Button("Add contact");
+
+    HorizontalLayout contactListHeader = new HorizontalLayout(searchField, addContactBtn);
+    contactListHeader.addClassName("contact-list-header");
+    return contactListHeader;
   }
 
   private void configureGrid() {
