@@ -1,30 +1,57 @@
 package com.example.application.views.list;
 
+import com.example.application.data.entity.Contact;
+
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@PageTitle("list")
-@Route(value = "")
+@PageTitle("Contacts | Springboot CRM")
+@Route(value = "") // Default route
 public class ListView extends VerticalLayout {
 
-    public ListView() {
-        setSpacing(false);
+  Grid<Contact> grid = new Grid<>(Contact.class); 
+  TextField searchField = new TextField();
 
-        Image img = new Image("images/empty-plant.png", "placeholder plant");
-        img.setWidth("200px");
-        add(img);
+  public ListView() {
+    addClassName("list-view"); 
+    setSizeFull();
 
-        add(new H2("This place intentionally left empty"));
-        add(new Paragraph("It’s a place where you can grow your own UI 🤗"));
+    configureGrid(); 
 
-        setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        getStyle().set("text-align", "center");
-    }
 
+    // ADD
+    add(
+      // getToolbar(),
+      grid
+    );
+  }
+
+
+  // METHODS
+  private Component getToolbar() {
+    return null;
+  }
+
+  private void configureGrid() {
+    grid.addClassName("contact-grid");
+    grid.setSizeFull();
+    grid.setColumns("firstName", "lastName", "email"); 
+
+    grid.addColumn(contact -> contact.getStatus().getName()).setHeader("Status"); 
+    grid.addColumn(contact -> contact.getCompany().getName()).setHeader("Company");
+    
+    // resizing Grid
+    grid.getColumns().forEach(col -> col.setAutoWidth(true));
+  }
 }
